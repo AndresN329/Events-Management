@@ -1,6 +1,6 @@
 package com.riwi.events_management.repository;
 
-import com.riwi.events_management.dto.VenueDTO;
+import com.riwi.ticketup.dto.VenueDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

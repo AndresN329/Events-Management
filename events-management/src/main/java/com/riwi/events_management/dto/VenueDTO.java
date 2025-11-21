@@ -1,21 +1,36 @@
-package com.riwi.events_management.dto;
+package com.riwi.ticketup.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+@Data
+@Schema(
+        name = "Venue",
+        description = "Representa un venue o lugar donde se realizan los eventos."
+)
 public class VenueDTO {
+
+    @Schema(
+            description = "Identificador único del venue",
+            example = "10"
+    )
     private Long id;
+
+    @Schema(
+            description = "Nombre del venue. No puede estar vacío.",
+            example = "Estadio Central"
+    )
     private String name;
-    private int capacity;
+
+    @Schema(
+            description = "Capacidad máxima del venue",
+            example = "50000"
+    )
+    private Integer capacity;
+
+    @Schema(
+            description = "Dirección física del venue",
+            example = "Avenida Libertador 123, Bogotá"
+    )
     private String address;
-
-    // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public int getCapacity() { return capacity; }
-    public void setCapacity(int capacity) { this.capacity = capacity; }
-
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
 }
