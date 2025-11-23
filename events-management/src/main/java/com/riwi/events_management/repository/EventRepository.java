@@ -1,34 +1,26 @@
 package com.riwi.events_management.repository;
 
-import com.riwi.events_management.dto.EventDTO;
-import org.springframework.stereotype.Repository;
+import com.riwi.events_management.entity.EventEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+public interface EventRepository extends JpaRepository<EventEntity, Long> {
 
-@Repository
-public class EventRepository {
-    private final List<EventDTO> events = new ArrayList<>();
-    private Long nextId = 1L;
+    boolean existsByName(String name);
 
-    public List<EventDTO> findAll() {
-        return events;
-    }
-
-    public Optional<EventDTO> findById(Long id) {
-        return events.stream().filter(e -> e.getId().equals(id)).findFirst();
-    }
-
-    public EventDTO save(EventDTO event) {
-        if (event.getId() == null) {
-            event.setId(nextId++);
-        }
-        events.add(event);
-        return event;
-    }
-
-    public boolean delete(Long id) {
-        return events.removeIf(e -> e.getId().equals(id));
-    }
+    @Query("""
+        SELECT e FROM EventEntity e 
+        WHERE (:city IS NULL OR e.city = :city)
+        AND   (:category IS NULL OR e.category = :category)
+        AND   (:startDate IS NULL OR e.startDate >= :startDate)
+    """)
+    Page<EventEntity> filter(
+            @Param("city") String city,
+            @Param("category") String category,
+            @Param("startDate") java.time.LocalDate startDate,
+            Pageable pageable
+    );
 }
