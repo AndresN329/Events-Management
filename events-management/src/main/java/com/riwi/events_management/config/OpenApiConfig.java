@@ -12,9 +12,9 @@ public class OpenApiConfig {
     public OpenAPI baseOpenAPI() {
         return new OpenAPI().info(
                 new Info()
-                        .title("In-Memory Catalog of Events and Venues")
+                        .title("Events & Venues API – Hexagonal Architecture")
                         .version("1.0.0")
-                        .description("REST API for managing events and venues using layered architecture and in-memory persistence")
+                        .description("REST API refactorizada usando Arquitectura Hexagonal (Ports & Adapters) para gestionar eventos y venues.")
         );
     }
 }
