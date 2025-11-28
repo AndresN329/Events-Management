@@ -1,22 +1,14 @@
-package com.riwi.events_management.domain.ports.out.event;
+package com.riwi.events_management.domain.ports.in.event;
 
 import com.riwi.events_management.domain.model.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
-public interface EventRepositoryPort {
+public interface GetFilteredEventsUseCase {
 
-    Event save(Event event);
-
-    Optional<Event> findById(Long id);
-
-    void deleteById(Long id);
-
-    // HU4 Filters + Pagination
-    Page<Event> findAllWithFilters(
+    Page<Event> findFiltered(
             Long venueId,
             String category,
             LocalDate startDate,

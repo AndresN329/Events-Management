@@ -37,7 +37,13 @@ public class EventJpaEntity {
     @Column(nullable = false)
     private Integer capacity;
 
-    @ManyToOne
+    /**
+     * - Relación ManyToOne correctamente configurada:
+     * - FetchType.LAZY para prevenir N+1 y mejorar rendimiento
+     * - JoinColumn con venue_id como FK
+     * - No cascade aquí (se maneja del lado Venue si se necesita)
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "venue_id", nullable = false)
     private VenueJpaEntity venue;
 }

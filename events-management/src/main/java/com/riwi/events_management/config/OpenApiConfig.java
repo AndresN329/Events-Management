@@ -13,8 +13,10 @@ public class OpenApiConfig {
         return new OpenAPI().info(
                 new Info()
                         .title("Events & Venues API – Hexagonal Architecture")
-                        .version("1.0.0")
-                        .description("REST API refactorizada usando Arquitectura Hexagonal (Ports & Adapters) para gestionar eventos y venues.")
+                        .version("1.1.0")
+                        .description(
+                                "API using Hexagonal Architecture for managing events and venues, including dynamic filters, pagination, entity relations, transactions and Flyway migrations."
+                        )
         );
     }
 }
