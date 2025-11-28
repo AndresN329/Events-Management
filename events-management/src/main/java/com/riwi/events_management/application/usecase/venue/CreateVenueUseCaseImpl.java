@@ -5,8 +5,10 @@ import com.riwi.events_management.domain.model.Venue;
 import com.riwi.events_management.domain.ports.in.venue.CreateVenueUseCase;
 import com.riwi.events_management.domain.ports.out.venue.VenueRepositoryPort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class CreateVenueUseCaseImpl implements CreateVenueUseCase {
 
     private final VenueRepositoryPort repository;

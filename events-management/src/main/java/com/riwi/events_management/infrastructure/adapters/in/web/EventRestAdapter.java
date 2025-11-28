@@ -3,13 +3,17 @@ package com.riwi.events_management.infrastructure.adapters.in.web;
 import com.riwi.events_management.domain.model.Event;
 import com.riwi.events_management.domain.ports.in.event.CreateEventUseCase;
 import com.riwi.events_management.domain.ports.in.event.DeleteEventUseCase;
-import com.riwi.events_management.domain.ports.in.event.GetAllEventsUseCase;
 import com.riwi.events_management.domain.ports.in.event.GetEventUseCaseById;
+import com.riwi.events_management.domain.ports.in.event.GetFilteredEventsUseCase;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/events")
@@ -18,18 +22,18 @@ public class EventRestAdapter {
 
     private final CreateEventUseCase createUseCase;
     private final GetEventUseCaseById getUseCase;
-    private final GetAllEventsUseCase getAllUseCase;
+    private final GetFilteredEventsUseCase getFilteredUseCase;
     private final DeleteEventUseCase deleteUseCase;
 
     public EventRestAdapter(
             CreateEventUseCase createUseCase,
             GetEventUseCaseById getUseCase,
-            GetAllEventsUseCase getAllUseCase,
+            GetFilteredEventsUseCase getFilteredUseCase,
             DeleteEventUseCase deleteUseCase
     ) {
         this.createUseCase = createUseCase;
         this.getUseCase = getUseCase;
-        this.getAllUseCase = getAllUseCase;
+        this.getFilteredUseCase = getFilteredUseCase;
         this.deleteUseCase = deleteUseCase;
     }
 
@@ -45,9 +49,28 @@ public class EventRestAdapter {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * HU4 → Filtros + Paginación
+     */
     @GetMapping
-    public ResponseEntity<List<Event>> getAll() {
-        return ResponseEntity.ok(getAllUseCase.findAll());
+    public ResponseEntity<Page<Event>> findFiltered(
+            @RequestParam(required = false) Long venueId,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            Pageable pageable
+    ) {
+        Page<Event> events = getFilteredUseCase.findFiltered(
+                venueId,
+                category,
+                startDate,
+                endDate,
+                pageable
+        );
+
+        return ResponseEntity.ok(events);
     }
 
     @DeleteMapping("/{id}")

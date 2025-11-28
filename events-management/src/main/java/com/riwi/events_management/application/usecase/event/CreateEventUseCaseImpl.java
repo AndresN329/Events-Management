@@ -4,8 +4,10 @@ import com.riwi.events_management.domain.model.Event;
 import com.riwi.events_management.domain.ports.in.event.CreateEventUseCase;
 import com.riwi.events_management.domain.ports.out.event.EventRepositoryPort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional // Escritura → transacción completa
 public class CreateEventUseCaseImpl implements CreateEventUseCase {
 
     private final EventRepositoryPort repository;

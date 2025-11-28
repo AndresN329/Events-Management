@@ -3,8 +3,10 @@ package com.riwi.events_management.application.usecase.event;
 import com.riwi.events_management.domain.ports.in.event.DeleteEventUseCase;
 import com.riwi.events_management.domain.ports.out.event.EventRepositoryPort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional // Escritura → requiere transacción completa
 public class DeleteEventUseCaseImpl implements DeleteEventUseCase {
 
     private final EventRepositoryPort repository;
