@@ -22,10 +22,16 @@ public class VenueJpaEntity {
     private String name;
 
     @Column(nullable = false)
-    private Integer capacity;
+    private String address;
 
     @Column(nullable = false)
-    private String address;
+    private Integer minCapacity;
+
+    @Column(nullable = false)
+    private Integer maxCapacity;
+
+    @Column(length = 500)
+    private String description;
 
     @Builder.Default
     @OneToMany(
@@ -36,7 +42,7 @@ public class VenueJpaEntity {
     )
     private List<EventJpaEntity> events = new ArrayList<>();
 
-    // Métodos helper (recomendados para evitar inconsistencias)
+    // Helpers
     public void addEvent(EventJpaEntity event) {
         events.add(event);
         event.setVenue(this);

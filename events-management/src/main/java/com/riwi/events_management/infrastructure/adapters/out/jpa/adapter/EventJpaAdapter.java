@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
@@ -34,8 +35,7 @@ public class EventJpaAdapter implements EventRepositoryPort {
 
     @Override
     public Optional<Event> findById(Long id) {
-        return repository.findById(id)
-                .map(mapper::toDomain);
+        return repository.findById(id).map(mapper::toDomain);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class EventJpaAdapter implements EventRepositoryPort {
     public Page<Event> findAllWithFilters(
             Long venueId,
             String category,
-            LocalDate startDate,
-            LocalDate endDate,
+            LocalDateTime startDate,
+            LocalDateTime endDate,
             Pageable pageable
     ) {
 
@@ -59,5 +59,11 @@ public class EventJpaAdapter implements EventRepositoryPort {
 
         return repository.findAll(spec, pageable)
                 .map(mapper::toDomain);
+    }
+
+
+    @Override
+    public boolean existsById(Long id) {
+        return repository.existsById(id);  // IMPLEMENTACIÓN REAL
     }
 }
