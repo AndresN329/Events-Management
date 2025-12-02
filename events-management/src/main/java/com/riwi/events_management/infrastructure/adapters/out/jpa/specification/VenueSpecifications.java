@@ -9,34 +9,30 @@ public class VenueSpecifications {
         return (root, query, cb) ->
                 name == null || name.isBlank()
                         ? cb.conjunction()
-                        : cb.equal(root.get("name"), name);
+                        : cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%");
     }
 
     public static Specification<VenueJpaEntity> byAddress(String address) {
         return (root, query, cb) ->
                 address == null || address.isBlank()
                         ? cb.conjunction()
-                        : cb.equal(root.get("address"), address);
+                        : cb.like(cb.lower(root.get("address")), "%" + address.toLowerCase() + "%");
     }
 
-    public static Specification<VenueJpaEntity> byCapacity(Integer capacity) {
-        return (root, query, cb) ->
-                capacity == null
-                        ? cb.conjunction()
-                        : cb.equal(root.get("capacity"), capacity);
-    }
+    // ⛔ ELIMINADO: ya no existe el campo "capacity"
+    // public static Specification<VenueJpaEntity> byCapacity(Integer capacity) { ... }
 
     public static Specification<VenueJpaEntity> minCapacity(Integer min) {
         return (root, query, cb) ->
                 min == null
                         ? cb.conjunction()
-                        : cb.greaterThanOrEqualTo(root.get("capacity"), min);
+                        : cb.greaterThanOrEqualTo(root.get("maxCapacity"), min);
     }
 
     public static Specification<VenueJpaEntity> maxCapacity(Integer max) {
         return (root, query, cb) ->
                 max == null
                         ? cb.conjunction()
-                        : cb.lessThanOrEqualTo(root.get("capacity"), max);
+                        : cb.lessThanOrEqualTo(root.get("minCapacity"), max);
     }
 }

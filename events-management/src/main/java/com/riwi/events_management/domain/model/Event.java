@@ -1,6 +1,7 @@
 package com.riwi.events_management.domain.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Event {
 
@@ -9,25 +10,30 @@ public class Event {
     private String description;
     private String category;
     private String city;
-    private LocalDate startDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private Integer capacity;
     private Long venueId;
 
-    public Event() {}
+    public Event() {
+    }
 
     public Event(Long id, String name, String description, String category,
-                 String city, LocalDate startDate, Integer capacity, Long venueId) {
+                 String city, LocalDateTime startDate, LocalDateTime endDate,
+                 Integer capacity, Long venueId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.category = category;
         this.city = city;
         this.startDate = startDate;
+        this.endDate = endDate;
         this.capacity = capacity;
         this.venueId = venueId;
     }
 
-    // Getters y setters
+    // Getters & setters ↓↓↓
+
 
     public Long getId() {
         return id;
@@ -61,6 +67,14 @@ public class Event {
         this.category = category;
     }
 
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
     public String getCity() {
         return city;
     }
@@ -69,12 +83,12 @@ public class Event {
         this.city = city;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 
     public Integer getCapacity() {

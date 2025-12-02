@@ -2,7 +2,7 @@ package com.riwi.events_management.infrastructure.adapters.out.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -28,21 +28,15 @@ public class EventJpaEntity {
     @Column(nullable = false)
     private String category;
 
-    @Column(nullable = false)
-    private String city;
-
     @Column(name = "start_date", nullable = false)
-    private LocalDate startDate;
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date", nullable = false)
+    private LocalDateTime endDate;
 
     @Column(nullable = false)
     private Integer capacity;
 
-    /**
-     * - Relación ManyToOne correctamente configurada:
-     * - FetchType.LAZY para prevenir N+1 y mejorar rendimiento
-     * - JoinColumn con venue_id como FK
-     * - No cascade aquí (se maneja del lado Venue si se necesita)
-     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "venue_id", nullable = false)
     private VenueJpaEntity venue;

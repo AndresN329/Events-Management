@@ -4,8 +4,9 @@ import com.riwi.events_management.domain.model.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
+
 import java.util.Optional;
+import java.time.LocalDateTime;
 
 public interface EventRepositoryPort {
 
@@ -19,8 +20,10 @@ public interface EventRepositoryPort {
     Page<Event> findAllWithFilters(
             Long venueId,
             String category,
-            LocalDate startDate,
-            LocalDate endDate,
+            LocalDateTime startDate,
+            LocalDateTime endDate,
             Pageable pageable
     );
+
+    boolean existsById(Long id);
 }

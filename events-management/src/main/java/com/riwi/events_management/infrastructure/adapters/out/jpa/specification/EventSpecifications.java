@@ -4,7 +4,7 @@ import com.riwi.events_management.infrastructure.adapters.out.jpa.entity.EventJp
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class EventSpecifications {
 
@@ -22,32 +22,23 @@ public class EventSpecifications {
                         : cb.equal(root.get("category"), category);
     }
 
-    public static Specification<EventJpaEntity> byCity(String city) {
-        return (root, query, cb) ->
-                city == null || city.isBlank()
-                        ? cb.conjunction()
-                        : cb.equal(root.get("city"), city);
-    }
-
-    public static Specification<EventJpaEntity> byStartDate(LocalDate date) {
-        return (root, query, cb) ->
-                date == null
-                        ? cb.conjunction()
-                        : cb.equal(root.get("startDate"), date);
-    }
-
-    public static Specification<EventJpaEntity> byDateRange(LocalDate start, LocalDate end) {
+    public static Specification<EventJpaEntity> byDateRange(LocalDateTime start, LocalDateTime end) {
         return (root, query, cb) -> {
-            if (start == null && end == null) return cb.conjunction();
+
+            if (start == null && end == null)
+                return cb.conjunction();
+
             if (start != null && end != null)
                 return cb.between(root.get("startDate"), start, end);
+
             if (start != null)
                 return cb.greaterThanOrEqualTo(root.get("startDate"), start);
+
             return cb.lessThanOrEqualTo(root.get("startDate"), end);
         };
     }
 
-    // No usar con Pageable
+    // Para evitar N+1 si se requiere
     public static Specification<EventJpaEntity> fetchVenue() {
         return (root, query, cb) -> {
             root.fetch("venue", JoinType.LEFT);
