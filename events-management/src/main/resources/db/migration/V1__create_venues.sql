@@ -3,8 +3,12 @@
 -- ===============================
 
 CREATE TABLE venues (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    capacity INT NOT NULL,
-    address VARCHAR(255) NOT NULL
+   id BIGINT PRIMARY KEY AUTO_INCREMENT,
+   name VARCHAR(255) NOT NULL,
+   address VARCHAR(255) NOT NULL,
+
+   min_capacity INT NOT NULL,
+   max_capacity INT NOT NULL,
+
+   description TEXT
 );

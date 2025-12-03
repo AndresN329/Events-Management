@@ -3,6 +3,7 @@ package com.riwi.events_management.application.usecase.event;
 import com.riwi.events_management.domain.model.Event;
 import com.riwi.events_management.domain.ports.in.event.CreateEventUseCase;
 import com.riwi.events_management.domain.ports.out.event.EventRepositoryPort;
+import com.riwi.events_management.infrastructure.metrics.EventMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,11 @@ public class CreateEventUseCaseImpl implements CreateEventUseCase {
     private static final Logger log = LoggerFactory.getLogger(CreateEventUseCaseImpl.class);
 
     private final EventRepositoryPort repository;
+    private final EventMetrics metrics; // ← MÉTRICA
 
-    public CreateEventUseCaseImpl(EventRepositoryPort repository) {
+    public CreateEventUseCaseImpl(EventRepositoryPort repository, EventMetrics metrics) {
         this.repository = repository;
+        this.metrics = metrics;
     }
 
     @Override
@@ -26,6 +29,9 @@ public class CreateEventUseCaseImpl implements CreateEventUseCase {
                 event.getName(), event.getCategory(), event.getVenueId());
 
         Event saved = repository.save(event);
+
+        // MÉTRICA: sumar uno cada vez que se crea un evento
+        metrics.increment();
 
         log.info("✔ [USECASE] Evento creado con ID: {}", saved.getId());
         return saved;
