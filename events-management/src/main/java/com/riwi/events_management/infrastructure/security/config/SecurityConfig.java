@@ -53,8 +53,12 @@ public class SecurityConfig {
 
                         .requestMatchers("/auth/**").permitAll()
 
+                        // PERMITIR ACTUATOR (Health, Metrics, Prometheus)
+                        .requestMatchers("/actuator/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
+
 
                 //  DESHABILITAR BASIC AUTH (evita conflictos con Swagger)
                 .httpBasic(basic -> basic.disable())
